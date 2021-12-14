@@ -5,7 +5,7 @@ import com.guidedhacking.GHInput;
 import com.guidedhacking.GHMemory;
 import com.guidedhacking.GHTools;
 import com.murilonerdx.model.Helper;
-import com.murilonerdx.model.player.mode.Bullet;
+import com.murilonerdx.model.player.mode.BulletMode;
 import com.murilonerdx.model.player.mode.EspMode;
 import com.sun.glass.events.KeyEvent;
 import javafx.animation.AnimationTimer;
@@ -19,10 +19,15 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /*
-        offset life = 007DBDD0
+        offset life = ac_client.exe+17B0B8
         ac_client.exe = 00400000
         cheat engine acess memory view, double click in ac_client.exe -> tools dissect PE headers [portable executable(PE)]
         MainPlayerBase: ac_client.exe+17B264
+
+        PointerEntityList: ac_client.exe + 187C10
+        MainPlayerEnemy: "ac_client.exe"+0018EFDC (EC + 4)
+        Position: "ac_client.exe"+0018EFDC (0x4 - 8)
+        QtdPlayers = "ac_client.exe" 0x187C18;
 
         ANGLEX: 34 #Vai de 0 até 360
         ANGLEY: 38 #Vai de 90 a -90
@@ -36,7 +41,6 @@ import javafx.stage.StageStyle;
 public class AssaltCube extends Application {
     public static Pane pane;
     private static boolean redraw = true;
-    private static byte gmValue = 99;
     private final int moduleBase = Helper.moduleBase;
 
     private static boolean esp = false;
@@ -138,7 +142,7 @@ public class AssaltCube extends Application {
                             line1.setText("github: murilonerdx");
                             line2.setText("[L] - BULLET & LIFE +999");
                             line3.setText("[K] - DESATIVAR HACK ");
-                            line4.setText("[E] - ESP ");
+                            line4.setText("[P] - ESP ");
                             redraw = false;
                         }
 
@@ -150,7 +154,7 @@ public class AssaltCube extends Application {
                             line4.setText("[P] - ESP ");
                             mode.setText("MODE: ATIVO");
 
-                            Bullet.activeBulletInfinite();
+                            BulletMode.activeBulletInfinite();
                         }
 
                         if (GHInput.getKeyDown(KeyEvent.VK_K)) {
@@ -161,7 +165,7 @@ public class AssaltCube extends Application {
                             line4.setText("[P] - ESP ");
                             mode.setText("MODE: DESATIVADO");
 
-                            Bullet.deActivateBulletInfinite();
+                            BulletMode.deActivateBulletInfinite();
                         }
 
                         if (GHInput.getKeyDown(KeyEvent.VK_P)) {

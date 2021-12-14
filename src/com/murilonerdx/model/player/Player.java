@@ -11,10 +11,10 @@ public class Player {
     private final int moduleBase = Helper.moduleBase;
     private GHPointer healthPtr  = new GHPointer(moduleBase+0x17B264,0xEC); // moduleBase+0x17B264 = MainPlayer + EC = Vida
 
-    private GHPointer teamPtr = new GHPointer(moduleBase+0x17B264,0x30C);
-    private GHPointer posXPtr = new GHPointer(moduleBase+0x17B264,0x8);
+    private GHPointer teamPtr = new GHPointer(moduleBase+0x17B264,0x220);
+    private GHPointer posXPtr = new GHPointer(moduleBase+0x17B264,0x2C);
     private GHPointer posYPtr = new GHPointer(moduleBase+0x17B264,0xC);
-    private GHPointer posZPtr = new GHPointer(moduleBase+0x17B264,0x4);
+    private GHPointer posZPtr = new GHPointer(moduleBase+0x17B264,0x28);
 
     private GHPointer rotXPtr = new GHPointer(moduleBase+0x17B264, 0x34);
     private GHPointer rotYPtr = new GHPointer(moduleBase+0x17B264, 0x38);

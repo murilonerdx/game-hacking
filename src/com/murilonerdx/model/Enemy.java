@@ -12,14 +12,16 @@ public class Enemy {
     private GHPointer teamPtr;
     private String name;
 
-    public Enemy(int enemyPointer) {
+    public Enemy(int enemyPointer) throws ClassNotFoundException {
         healthPtr  = new GHPointer(enemyPointer,0xEC);
-        posXPtr = new GHPointer(enemyPointer,0x8);
+        posXPtr = new GHPointer(enemyPointer,0x2C);
         posYPtr = new GHPointer(enemyPointer,0xC);
-        posZPtr = new GHPointer(enemyPointer,0x4);
-        teamPtr = new GHPointer(enemyPointer,0x30C);
-        GHPointer namePtr = new GHPointer(enemyPointer,0x119);
-        name = GHMemory.readString(GHMemory.getObjectAddress(namePtr), 4);
+        posZPtr = new GHPointer(enemyPointer,0x28);
+        teamPtr = new GHPointer(enemyPointer,0x220);
+
+
+        GHPointer namePtr = new GHPointer(enemyPointer,0x205);
+        name = GHMemory.readString(GHMemory.getObjectAddress(namePtr),4);
     }
 
     public Position getPosition() {

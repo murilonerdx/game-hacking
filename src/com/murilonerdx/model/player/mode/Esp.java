@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-
 public class Esp extends AnimationTimer {
     private boolean stop = false;
     private static Pane EspOverlay;
@@ -32,66 +31,62 @@ public class Esp extends AnimationTimer {
 
     public void stopEsp() {
         stop = true;
-        for(Rectangle r : EspBoxes){
-            if(r != null)
+        for (Rectangle r : EspBoxes) {
+            if (r != null)
                 r.setVisible(false);
         }
     }
 
     @Override
     public void handle(long now) {
-        if(!stop) {
+        if (!stop) {
             try {
-                if(!initialized){
+                if (!initialized) {
                     EspOverlay = AssaltCube.pane;
                     //EspOverlay.getChildren().add(new Rectangle (25, 25, Color.RED));
-                    players = new Enemy[GHMemory.readInt(moduleBase+ 0x1807F)-1];
+                    players = new Enemy[GHMemory.readInt(moduleBase + 0x187C18) - 1];
                     EspBoxes = new Rectangle[players.length];
 
-                    listPointer = new GHPointer(moduleBase+0xC7FCCB4,0x4);
+                    listPointer = new GHPointer(moduleBase + 0x187C10, 0x4);
                     playerList = GHMemory.getObjectAddress(listPointer);
                     myPlayer = new Player();
-                    enemyScreenPos = new Position2D(0,0);
+                    enemyScreenPos = new Position2D(0, 0);
 
-                    for(int i=0; i < players.length; i++) {
-                        players[i] = new Enemy((int)playerList+(i*4));
-                        if(myPlayer.isEnemy(players[i])) {
-                            EspBoxes[i] = new Rectangle (25, 25, Color.TRANSPARENT);
-                            EspBoxes[i].setStroke(Color.RED);
-                            EspOverlay.getChildren().add(EspBoxes[i]);
-                        }
+                    for (int i = 0; i < players.length; i++) {
+                        players[i] = new Enemy((int) playerList + (i * 4));
+                        EspBoxes[i] = new Rectangle(50, 50, Color.TRANSPARENT);
+                        EspBoxes[i].setStroke(Color.RED);
+                        EspOverlay.getChildren().add(EspBoxes[i]);
                     }
-                    initialized = true;
+                    initialized = false;
                 }
 
-                if(players.length == (GHMemory.readInt(moduleBase+0x1807F0)-1) && !stop) {
-                    for(int i=0; i < players.length; i++) {
-                        if(stop) {
+
+                if (players.length == (GHMemory.readInt(moduleBase + 0x187C18) - 1) && !stop) {
+                    for (int i = 0; i < players.length; i++) {
+                        if (stop) {
                             break;
                         }
 
-                        if(myPlayer.isEnemy(players[i])) {
-                            enemyWorldPos = players[i].getPosition();
-                            enemyWorldPos.z -= 8;
+                        enemyWorldPos = players[i].getPosition();
+                        enemyWorldPos.z -= 8;
 
-                            if(players[i].isAlive() && Helper.WorldToScreen(enemyWorldPos, enemyScreenPos, GHTools.getGameWidth(), GHTools.getGameHeight()) && !stop){
-                                if(enemyScreenPos.x > 0 && enemyScreenPos.y > 0) {
-                                    EspBoxes[i].setVisible(true);
-                                    float dist = myPlayer.getDistance(enemyWorldPos);
-                                    EspBoxes[i].setHeight(8000/dist);
-                                    EspBoxes[i].setWidth(5000/dist);
-                                    EspBoxes[i].setX(enemyScreenPos.x-(EspBoxes[i].getWidth()/2));
-                                    EspBoxes[i].setY(enemyScreenPos.y-(EspBoxes[i].getHeight()/2));
-                                }
-                            }else{
-                                EspBoxes[i].setVisible(false);
+                        if (Helper.WorldToScreen(enemyWorldPos, enemyScreenPos, GHTools.getGameWidth(), GHTools.getGameHeight()) && !stop) {
+                            if (enemyScreenPos.x > 0 && enemyScreenPos.y > 0) {
+                                EspBoxes[i].setVisible(true);
+                                float dist = myPlayer.getDistance(enemyWorldPos);
+                                EspBoxes[i].setHeight(8000 / dist);
+                                EspBoxes[i].setWidth(5000 / dist);
+                                EspBoxes[i].setX(enemyScreenPos.x - (EspBoxes[i].getWidth() / 2));
+                                EspBoxes[i].setY(enemyScreenPos.y - (EspBoxes[i].getHeight() / 2));
                             }
+                        } else {
+                            EspBoxes[i].setVisible(false);
                         }
 
                     }
                 }
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 //exception handeling
             }
         }

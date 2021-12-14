@@ -11,7 +11,7 @@ public class Helper {
 
         //load in view matrix:
         for(int i=0; i<16; i++) {
-            matrix[i] = GHMemory.readFloat(moduleBase+0x17B264+(i*0x4));
+            matrix[i] = GHMemory.readFloat(moduleBase+0x501AE8);
         }
 
         float x = worldPos.x*matrix[0] + worldPos.y*matrix[4] + worldPos.z*matrix[8] + matrix[12];

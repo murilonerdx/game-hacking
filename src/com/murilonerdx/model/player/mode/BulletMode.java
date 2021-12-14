@@ -4,7 +4,7 @@ import com.guidedhacking.GHMemory;
 import com.murilonerdx.model.Helper;
 import com.murilonerdx.model.player.Player;
 
-public class Bullet {
+public class BulletMode {
     private static final int moduleBase = Helper.moduleBase;
     private static final Player player = new Player();
     private static int bkpHealth;
